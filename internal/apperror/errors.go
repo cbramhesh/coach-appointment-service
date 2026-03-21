@@ -35,3 +35,11 @@ func Internal(code, message string) *AppError {
 		Message:    message,
 	}
 }
+
+func Conflict(code, message string) *AppError {
+	return &AppError{
+		StatusCode: 409,
+		Code:       code,
+		Message:    message,
+	}
+}
