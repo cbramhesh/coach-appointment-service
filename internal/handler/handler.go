@@ -4,6 +4,7 @@ import (
 	"coach-appointment-service/internal/apperror"
 	"encoding/json"
 	"errors"
+	"log"
 	"net/http"
 )
 
@@ -17,6 +18,7 @@ func writeJSON(w http.ResponseWriter, status int, data interface{}) {
 }
 
 func writeError(w http.ResponseWriter, err error) {
+	log.Printf("ERROR: %v", err)
 	var appErr *apperror.AppError
 	if errors.As(err, &appErr) {
 		w.Header().Set("Content-Type", "application/json")

@@ -49,8 +49,8 @@ func (s *AvailabilityService) CreateAvailability(ctx context.Context, req dto.Cr
 	avail := &model.Availability{
 		CoachID:   req.CoachID,
 		DayOfWeek: req.DayOfWeek,
-		StartTime: startTime,
-		EndTime:   endTime,
+		StartTime: req.StartTime,
+		EndTime:   req.EndTime,
 	}
 
 	result, err := s.availRepo.Create(ctx, avail)

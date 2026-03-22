@@ -47,8 +47,8 @@ func (s *SlotService) GetAvailableSlots(ctx context.Context, coachID int, dateSt
 
 	var allSlots []dto.TimeSlot
 	for _, avail := range availabilities {
-		startStr := avail.StartTime.Format("15:04")
-		endStr := avail.EndTime.Format("15:04")
+		startStr := avail.StartTime
+		endStr := avail.EndTime
 		slots, err := generateSlots(startStr, endStr, dateInCoachTZ, loc)
 		if err != nil {
 			return nil, err
@@ -62,8 +62,6 @@ func (s *SlotService) GetAvailableSlots(ctx context.Context, coachID int, dateSt
 			Slots: []dto.TimeSlot{},
 		}, nil
 	}
-
-	// 7. Get booked slots for this time range
 	firstStart, _ := time.Parse(time.RFC3339, allSlots[0].StartTime)
 	lastEnd, _ := time.Parse(time.RFC3339, allSlots[len(allSlots)-1].EndTime)
 
@@ -78,7 +76,6 @@ func (s *SlotService) GetAvailableSlots(ctx context.Context, coachID int, dateSt
 		}
 	}
 
-	// 8. Filter out booked and past slots
 	now := time.Now().UTC()
 	var available []dto.TimeSlot
 	for _, slot := range allSlots {
